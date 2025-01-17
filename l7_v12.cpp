@@ -79,20 +79,30 @@ private:
     }
 };
 
+bool menu(){
+    std::cout << "Введите дату в формате ДД М ГГГГ: ";
+    std::cout << "Для прерывания программы введите 0 0 0" << std::endl;
+    int day, month, year;
+    std::cin >> day >> month >> year;
+    if(day == 0 && month == 0 && year == 0) {
+        return false;
+    }
+    if (std::cin.fail()) {
+        std::cerr << "Ошибка: Неверный формат даты." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        return true;
+    }
+    Date date(day, month, year);
+    std::cout << "Дата: ";
+    date.printDate();
+    std::cout << "Время года: " << date.getSeason() << std::endl;
+    return true;
+}
+
 int main() {
     try {
-        // Создание объекта Date
-        Date date1(15, 3, 2025); // Весна
-        Date date2(1, 12, 2023); // Зима
-
-        // Вывод даты и времени года
-        std::cout << "Date 1: ";
-        date1.printDate();
-        std::cout << "Season: " << date1.getSeason() << std::endl;
-
-        std::cout << "Date 2: ";
-        date2.printDate();
-        std::cout << "Season: " << date2.getSeason() << std::endl;
+        while(menu());
 
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
