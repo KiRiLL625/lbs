@@ -106,23 +106,61 @@ public:
     }
 };
 
+bool menu(LinkedList<int>& ll) {
+    std::cout << "1. Добавить слово в конец" << std::endl;
+    std::cout << "2. Получить индексы максимального элемента" << std::endl;
+    std::cout << "3. Получить слово по индексу" << std::endl;
+    std::cout << "4. Вывести список" << std::endl;
+    std::cout << "5. Выход" << std::endl;
+    int choice;
+    std::cin >> choice;
+    switch (choice) {
+        case 1: {
+            std::cout << "Введите число: ";
+            int word;
+            std::cin >> word;
+            if (std::cin.peek() != '\n') {
+                std::cerr << "Ошибка: Вводите только одно слово." << std::endl;
+                std::cin.ignore(10000, '\n');
+                return true;
+            }
+            ll.add(word);
+            return true;
+        }
+        case 2: {
+            LinkedList<int> indices = ll.findMaxIndices();
+            std::cout << "Индексы максимальных элементов: ";
+            indices.print();
+            return true;
+        }
+        case 3: {
+            std::cout << "Введите индекс: ";
+            int index;
+            std::cin >> index;
+            if (index < 0 || index >= ll.getSize()) {
+                std::cerr << "Ошибка: Неверный индекс." << std::endl;
+                return true;
+            }
+            std::cout << "Слово: " << ll.get(index) << std::endl;
+            return true;
+        }
+        case 4: {
+            ll.print();
+            return true;
+        }
+        case 5: {
+            return false;
+        }
+        default:
+            std::cerr << "Ошибка: Неверный выбор." << std::endl;
+            return true;
+    }
+}
+
 int main() {
     // Создаём список List1
     LinkedList<int> List1;
-    List1.add(10);
-    List1.add(20);
-    List1.add(15);
-    List1.add(20); // Дублируем максимальный элемент
-    List1.add(5);
-
-    std::cout << "List1: ";
-    List1.print();
-
-    // Создаём список List2 с индексами максимальных элементов из List1
-    LinkedList<int> List2 = List1.findMaxIndices();
-
-    std::cout << "List2 (индексы максимальных элементов): ";
-    List2.print();
+    while(menu(List1));
 
     return 0;
 }
